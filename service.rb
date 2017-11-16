@@ -1,4 +1,5 @@
 require 'sinatra'
+require './config/authorize.rb'
 require './config/database.rb'
 require './config/concepts.rb'
 require './config/logging.rb'
@@ -8,12 +9,16 @@ set :bind, '0.0.0.0'
 set :port, 80
 set :public_folder, 'public'
 
-get '/houses/docs' do
-  redirect '/houses/docs/index.html'
+get '/houses' do
+  result = House::List.(user_id: USER['id'])
+  if result.success?
+    body House::Representer.for_collection.new(result['models']).to_json
+  else
+    status 422
+    body result['contract.default'].errors.messages.uniq.to_json
+  end
 end
 
-def bearer_token
-  pattern = /^Bearer /
-  header = request.env['HTTP_AUTHORIZATION']
-  header.gsub(pattern, '') if header && header.match(pattern)
+get '/houses/docs' do
+  redirect '/houses/docs/index.html'
 end

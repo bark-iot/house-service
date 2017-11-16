@@ -23,6 +23,8 @@ GEM
       declarative-option (< 0.2.0)
       representable (>= 2.4.0, <= 3.1.0)
       uber (< 0.2.0)
+    domain_name (0.5.20170404)
+      unf (>= 0.0.5, < 1.0.0)
     dry-configurable (0.7.0)
       concurrent-ruby (~> 1.0)
     dry-container (0.6.0)
@@ -51,10 +53,16 @@ GEM
       dry-logic (~> 0.4, >= 0.4.0)
       dry-types (~> 0.12.0)
     eventmachine (1.2.5)
+    http-cookie (1.0.3)
+      domain_name (~> 0.5)
     inflecto (0.0.2)
     method_source (0.9.0)
+    mime-types (3.1)
+      mime-types-data (~> 3.2015)
+    mime-types-data (3.2016.0521)
     multi_json (1.12.2)
     mustermann (1.0.1)
+    netrc (0.11.0)
     pg (0.21.0)
     pipetree (0.1.1)
     pry (0.11.2)
@@ -72,6 +80,10 @@ GEM
       declarative (< 0.1.0)
       declarative-option (< 0.2.0)
       uber (< 0.2.0)
+    rest-client (2.0.2)
+      http-cookie (>= 1.0.2, < 2.0)
+      mime-types (>= 1.16, < 4.0)
+      netrc (~> 0.8)
     rspec (3.7.0)
       rspec-core (~> 3.7.0)
       rspec-expectations (~> 3.7.0)
@@ -107,6 +119,9 @@ GEM
       pipetree (>= 0.1.1, < 0.2.0)
       uber
     uber (0.1.0)
+    unf (0.1.4)
+      unf_ext
+    unf_ext (0.0.7.4)
 
 PLATFORMS
   ruby
@@ -118,6 +133,7 @@ DEPENDENCIES
   pg
   pry
   rack-test
+  rest-client
   roar!
   rspec
   sequel

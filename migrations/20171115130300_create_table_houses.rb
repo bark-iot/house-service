@@ -6,6 +6,7 @@ class CreateTableHouses < Sequel::Migration
       column :address, String
       column :key, String
       column :secret, String
+      column :user_id, Integer
       column :created_at, :timestamp
       column :updated_at, :timestamp
     end

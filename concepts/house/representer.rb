@@ -9,7 +9,6 @@ class House < Sequel::Model(DB)
       property :title
       property :address
       property :key
-      property :secret
       property :created_at
       property :updated_at
   end

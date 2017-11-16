@@ -21,6 +21,9 @@ gem 'roar', github: 'trailblazer/roar'
 # Cli
 gem 'thor'
 
+# Network
+gem 'rest-client'
+
 group :test, :development do
   gem 'pry'
 end
