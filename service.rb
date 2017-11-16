@@ -19,6 +19,18 @@ get '/houses' do
   end
 end
 
+post '/houses' do
+
+end
+
+put '/houses/:id' do
+
+end
+
+delete '/houses/:id' do
+
+end
+
 get '/houses/docs' do
   redirect '/houses/docs/index.html'
 end
