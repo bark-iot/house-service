@@ -66,6 +66,34 @@ describe 'Houses Service' do
     expect(last_response.status).to equal(401)
   end
 
+  it 'should update house for user' do
+    header 'Authorization', "Bearer #{token}"
+    put "/houses/#{house.id}", {title: 'My House', address: 'Baker Street 221B'}
+
+    expect(last_response).to be_ok
+    body = JSON.parse(last_response.body)
+    expect(body['title']).to eql('My House')
+    expect(body['address']).to eql('Baker Street 221B')
+    expect(body['key'] != '').to be_truthy
+    expect(body['secret'] == nil).to be_truthy
+  end
+
+  it 'should not update house without title' do
+    header 'Authorization', "Bearer #{token}"
+    put "/houses/#{house.id}", {title: '', address: 'Baker street 221B'}
+
+    expect(last_response.status).to equal(422)
+    body = JSON.parse(last_response.body)
+    expect(body[0] == ['title', ['must be filled']]).to be_truthy
+  end
+
+  it 'should not update house for user with wrong token' do
+    header 'Authorization', 'Bearer wrong_token'
+    put '/houses', {title: 'MyHouse'}
+
+    expect(last_response.status).to equal(401)
+  end
+
   def token
     'a722658b-0fea-415c-937f-1c1d3c8342fd'
   end
