@@ -59,10 +59,9 @@ GET `/houses`
       "title": "MyHouse",
       "address": "Baker Street 221B",
       "key": "2d931510-d99f-494a-8c67-87feb05e1594",
-      "secret": "cd8a74e54129e64172fe692526dfb4c9641639e95ac48e91c0d3be2c03a32e5c",
       "created_at": "2017-11-11 11:04:44 UTC",
       "updated_at": "2017-1-11 11:04:44 UTC"
-    } 
+    }
 ]
 ```
 

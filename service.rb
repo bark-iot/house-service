@@ -34,11 +34,31 @@ post '/houses' do
 end
 
 put '/houses/:id' do
-
+  result = House::Update.(params.merge({user_id: USER['id']}))
+  if result.success?
+    body House::Representer.new(result['model']).to_json
+  else
+    if result['contract.default']
+      status 422
+      body result['contract.default'].errors.messages.uniq.to_json
+    else
+      status 404
+    end
+  end
 end
 
 delete '/houses/:id' do
-
+  result = House::Delete.(params.merge({user_id: USER['id']}))
+  if result.success?
+    status 200
+  else
+    if result['contract.default']
+      status 422
+      body result['contract.default'].errors.messages.uniq.to_json
+    else
+      status 404
+    end
+  end
 end
 
 get '/houses/docs' do
