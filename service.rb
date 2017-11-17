@@ -20,7 +20,17 @@ get '/houses' do
 end
 
 post '/houses' do
-
+  result = House::Create.(params.merge({user_id: USER['id']}))
+  if result.success?
+    body House::OwnerRepresenter.new(result['model']).to_json
+  else
+    if result['contract.default']
+      status 422
+      body result['contract.default'].errors.messages.uniq.to_json
+    else
+      status 404
+    end
+  end
 end
 
 put '/houses/:id' do

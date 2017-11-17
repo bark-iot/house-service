@@ -12,4 +12,16 @@ class House < Sequel::Model(DB)
       property :created_at
       property :updated_at
   end
+
+  class OwnerRepresenter < Roar::Decorator
+    include Roar::JSON
+
+    property :id
+    property :title
+    property :address
+    property :key
+    property :secret
+    property :created_at
+    property :updated_at
+  end
 end
