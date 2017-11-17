@@ -52,7 +52,7 @@ delete '/houses/:id' do
   if result.success?
     status 200
   else
-    if result['contract.default']
+    if result['contract.default'].errors.messages.size > 0
       status 422
       body result['contract.default'].errors.messages.uniq.to_json
     else

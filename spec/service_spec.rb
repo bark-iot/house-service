@@ -78,6 +78,14 @@ describe 'Houses Service' do
     expect(body['secret'] == nil).to be_truthy
   end
 
+  it 'should not update house of another user' do
+    another_house = House::Create.(title: 'MyHouse', user_id: 2)['model']
+    header 'Authorization', "Bearer #{token}"
+    put "/houses/#{another_house.id}", {title: 'My House', address: 'Baker Street 221B'}
+
+    expect(last_response.status).to equal(404)
+  end
+
   it 'should not update house without title' do
     header 'Authorization', "Bearer #{token}"
     put "/houses/#{house.id}", {title: '', address: 'Baker street 221B'}
@@ -90,6 +98,30 @@ describe 'Houses Service' do
   it 'should not update house for user with wrong token' do
     header 'Authorization', 'Bearer wrong_token'
     put '/houses', {title: 'MyHouse'}
+
+    expect(last_response.status).to equal(401)
+  end
+
+  it 'should delete house for user' do
+    house_id = house.id
+    header 'Authorization', "Bearer #{token}"
+    delete "/houses/#{house_id}"
+
+    expect(last_response).to be_ok
+    expect(House.where(id: house_id).first == nil).to be_truthy
+  end
+
+  it 'should not delete house of another user' do
+    another_house = House::Create.(title: 'MyHouse', user_id: 2)['model']
+    header 'Authorization', "Bearer #{token}"
+    delete "/houses/#{another_house.id}"
+
+    expect(last_response.status).to equal(404)
+  end
+
+  it 'should not delete house for user with wrong token' do
+    header 'Authorization', 'Bearer wrong_token'
+    delete "/houses/#{house.id}"
 
     expect(last_response.status).to equal(401)
   end
