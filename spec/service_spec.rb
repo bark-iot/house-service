@@ -11,6 +11,25 @@ describe 'Houses Service' do
         to_return(status: 422, body: '', headers: {})
   end
 
+  it 'should show house for user' do
+    header 'Authorization', "Bearer #{token}"
+    get "/houses/#{house.id}"
+
+    expect(last_response).to be_ok
+    body = JSON.parse(last_response.body)
+    expect(body['title']).to eql('MyHouse')
+    expect(body['key'] != '').to be_truthy
+    expect(body['secret'] == nil).to be_truthy
+  end
+
+  it 'should not show house for another user' do
+    h = House::Create.(title: 'MyHouse', user_id: 2)['model']
+    header 'Authorization', "Bearer #{token}"
+    get "/houses/#{h.id}"
+
+    expect(last_response.status).to equal(404)
+  end
+
   it 'should list all houses for user' do
     house_title = house.title
     header 'Authorization', "Bearer #{token}"

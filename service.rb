@@ -33,6 +33,20 @@ post '/houses' do
   end
 end
 
+get '/houses/:id' do
+  result = House::Get.(params.merge({user_id: USER['id']}))
+  if result.success?
+    body House::Representer.new(result['model']).to_json
+  else
+    if result['contract.default']
+      status 422
+      body result['contract.default'].errors.messages.uniq.to_json
+    else
+      status 404
+    end
+  end
+end
+
 put '/houses/:id' do
   result = House::Update.(params.merge({user_id: USER['id']}))
   if result.success?
