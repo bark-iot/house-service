@@ -6,6 +6,7 @@ class House < Sequel::Model(DB)
       include Roar::JSON
 
       property :id
+      property :user_id
       property :title
       property :address
       property :key
@@ -17,6 +18,7 @@ class House < Sequel::Model(DB)
     include Roar::JSON
 
     property :id
+    property :user_id
     property :title
     property :address
     property :key

@@ -21,11 +21,11 @@ class House < Sequel::Model(DB)
     end
 
     def log_success(options, params:, model:, **)
-      LOGGER.info "[#{self.class}] Found houses for user #{params.to_json}. Houses: #{User::Representer.new(options['model']).to_json}"
+      LOGGER.info "[#{self.class}] Found houses for user #{params.to_json}. Houses: #{House::Representer.new(options['model']).to_json}"
     end
 
     def log_failure(options, params:, **)
-      LOGGER.info "[#{self.class}] Failed to find user with params #{params.to_json}"
+      LOGGER.info "[#{self.class}] Failed to find houses with params #{params.to_json}"
     end
   end
 end

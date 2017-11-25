@@ -129,3 +129,43 @@ Deleted.
 *Error Response [401]*
 
 No token provided
+
+## Get House
+
+GET `/houses/:id`
+
+*GET parameters*
+
+Name         | Validation
+------------ | ------------- 
+id           | required
+
+*Response [200]*
+
+```json
+{
+  "id": 1,
+  "user_id": 1,
+  "title": "MyHouse",
+  "address": "Baker Street 221B",
+  "key": "2d931510-d99f-494a-8c67-87feb05e1594",
+  "created_at": "2017-11-11 11:04:44 UTC",
+  "updated_at": "2017-1-11 11:04:44 UTC"
+}
+```
+
+*Error Response [422]*
+
+```json
+[
+  ["id", ["must be filled"]]
+]
+```
+
+*Error Response [401]*
+
+Wrong user token
+
+*Error Response [404]*
+
+House not found

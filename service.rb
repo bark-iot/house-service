@@ -1,13 +1,17 @@
 require 'sinatra'
+require './config/logging.rb'
 require './config/authorize.rb'
 require './config/database.rb'
 require './config/concepts.rb'
-require './config/logging.rb'
 
 
 set :bind, '0.0.0.0'
 set :port, 80
 set :public_folder, 'public'
+
+get '/houses/docs' do
+  redirect '/houses/docs/index.html'
+end
 
 get '/houses' do
   result = House::List.(user_id: USER['id'])
@@ -73,8 +77,4 @@ delete '/houses/:id' do
       status 404
     end
   end
-end
-
-get '/houses/docs' do
-  redirect '/houses/docs/index.html'
 end

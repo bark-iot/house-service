@@ -116,7 +116,7 @@ describe 'Houses Service' do
 
   it 'should not update house for user with wrong token' do
     header 'Authorization', 'Bearer wrong_token'
-    put '/houses', {title: 'MyHouse'}
+    put "/houses/#{house.id}", {title: 'MyHouse'}
 
     expect(last_response.status).to equal(401)
   end
