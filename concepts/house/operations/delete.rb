@@ -7,6 +7,7 @@ class House < Sequel::Model(DB)
     step Contract::Build()
     step Contract::Validate()
     step :delete
+    step :notify
     step :log_success
     failure  :log_failure
 
@@ -26,9 +27,9 @@ class House < Sequel::Model(DB)
       options['model'].destroy
     end
 
-    step :log_success
-    failure  :log_failure
-
+    def notify(options, params:, **)
+      REDIS.publish 'houses', {type: 'deleted', house: {id: params[:id]}}.to_json
+    end
 
     def log_success(options, params:, **)
       LOGGER.info "[#{self.class}] Deleted house with params #{params.to_json}."

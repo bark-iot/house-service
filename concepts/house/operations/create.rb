@@ -10,6 +10,7 @@ class House < Sequel::Model(DB)
     step :generate_key_and_secret
     step :set_timestamps
     step Contract::Persist()
+    step :notify
     step :log_success
     failure  :log_failure
 
@@ -35,6 +36,9 @@ class House < Sequel::Model(DB)
       model.secret = SecureRandom.hex(32)
     end
 
+    def notify(options, params:, model:, **)
+      REDIS.publish 'houses', {type: 'created', house: model.values}.to_json
+    end
 
     def log_success(options, params:, model:, **)
       LOGGER.info "[#{self.class}] Created house with params #{params.to_json}. House: #{House::Representer.new(model).to_json}"
